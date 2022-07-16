@@ -1,16 +1,16 @@
 class BooksController < ApplicationController
-  def new
-    @book = Book.new
-  end
 
   def index
-    @books = Book.all
+    @book = Book.new #新規投稿はbookのindexページで行うからここに記述
+    @books = Book.all #bookの一覧表示
+    @user = current_user #現在ログインしているユーザーの編集
+    @users = User.all #Userの一覧表示
   end
 
   def create
-    book = Book.new(book_params)
-    book.save
-    redirect_to '/books'
+    @book = Book.new(book_params)
+    @book.save
+    redirect_to '/books' #新規投稿したらbookのindexページに遷移
   end
 
   def show
