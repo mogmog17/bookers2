@@ -4,17 +4,18 @@ class BooksController < ApplicationController
     @book = Book.new #新規投稿はbookのindexページで行うからここに記述
     @books = Book.all #bookの一覧表示
     @user = current_user #現在ログインしているユーザーの編集
-    @users = User.all #Userの一覧表示
   end
 
   def create
     @book = Book.new(book_params)
+    @book.user_id = current_user.id
     @book.save
-    redirect_to '/books' #新規投稿したらbookのindexページに遷移
+    redirect_to book_path(@book.id) #新規投稿したらbookのshowページに遷移
   end
 
   def show
     @book = Book.find(params[:id])
+    @user = @book.user
   end
 
   def edit
@@ -22,15 +23,15 @@ class BooksController < ApplicationController
   end
 
   def update
-    book = Book.find(params[:id])
-    book.update(book_params)
-    redirect_to book_path(book.id)
+    @book = Book.find(params[:id])
+    @book.update(book_params)
+    redirect_to book_path(@book.id)
   end
 
   def destroy
-    book = Book.find(params[:id])
-    book.destroy
-    redirect_to book_path(book.id)
+    book = Book.find(params[:id]) #データ（レコード）を1件取得
+    book.destroy #データ（レコード）を削除
+    redirect_to user_path(book.user.id) #ユーザーの詳細画面へリダイレクト
   end
 
 

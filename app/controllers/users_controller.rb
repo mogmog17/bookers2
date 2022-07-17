@@ -1,11 +1,13 @@
 class UsersController < ApplicationController
-  
+
   def index
-    @users = User.all
+    @book = Book.new
+    @user = current_user
+    @users = User.all #Userの一覧表示
   end
 
   def show
-    @book = Book.find(params[:id])
+    @user = User.find(params[:id])
   end
 
   def edit
@@ -13,12 +15,15 @@ class UsersController < ApplicationController
   end
 
   def update
+    @user = current_user #ユーザーの取得
+    @user.update(user_params) #ユーザーのアップデート
+    redirect_to user_path(@user.id) #ユーザーの詳細ページへのパス
   end
 
 
   private
 
   def user_params
-    params.require(:user).permit(:title, :body, :image)
+    params.require(:user).permit(:name, :introduction, :profile_image)
   end
 end
