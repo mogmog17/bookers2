@@ -4,14 +4,15 @@
     <div class="col-sm-12 col-md-8 col-lg-5 px-5 px-sm-0 mx-auto">
 
       <h1>Editing Book</h1>
-      <%= form_with model: @book do |f| %>
+      <%= form_with model: @book, method: :patch do |f| %>
        <label for="book_title">Title</label><br>
-       <%= f.text_field :title %><br>
+       <%= f.text_field :title, class: "form-control book_title" %><br>
        <label for="book_opinion">Opinion</label><br>
-       <%= f.text_field :body %><br>
-       <%= f.submit 'Update Book' %>
+       <%= f.text_area :body, class: "form-control book_body"%><br>
+       <%= f.submit 'Update Book', class: "btn btn-success" %>
       <% end %>
 
+      <br>
       <%= link_to "Show", book_path %> |
       <%= link_to "Back", books_path %>
     </div>
