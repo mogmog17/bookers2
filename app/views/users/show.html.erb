@@ -1,4 +1,4 @@
-<p id="notice"></p>
+<p id="notice"><%= flash[:notice] %></p>
 <div class="container px-5 px-sm-0">
   <div class="row">
     <div class="col-md-3">
@@ -20,7 +20,9 @@
           <% @user.books.each do |book| %>
           <tr>
             <td>
-              <%= image_tag @user.get_profile_image(100, 100) %>
+              <%= link_to user_path(@user.id) do %>
+               <%= image_tag @user.get_profile_image(100, 100) %>
+              <% end %>
             </td>
             <td>
               <%= link_to book.title, book_path(book.id) %>

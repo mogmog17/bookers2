@@ -8,16 +8,25 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    @book = Book.new
   end
 
   def edit
     @user = User.find(params[:id])
+    if @user == current_user
+    else
+      redirect_to user_path(current_user.id)
+    end
   end
 
   def update
-    @user = current_user #ユーザーの取得
-    @user.update(user_params) #ユーザーのアップデート
-    redirect_to user_path(@user.id) #ユーザーの詳細ページへのパス
+    @user = User.find(params[:id]) #ユーザーの取得
+    if @user.update(user_params) #ユーザーのアップデート
+      flash[:notice] = "You have updated user successfully."
+      redirect_to user_path(@user.id) #ユーザーの詳細ページへのパス
+    else
+      render :edit
+    end
   end
 
 
