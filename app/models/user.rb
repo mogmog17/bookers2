@@ -4,6 +4,13 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  def self.guest
+    find_or_create_by!(name: 'guestuser', email: 'guest@example.com') do |user|
+      user.password = SecureRandom.urlsafe_base64
+      user.name = "guestuser"
+    end
+  end
+
   has_one_attached :profile_image
   has_many :books, dependent: :destroy #1:N の「1」側にあたるモデルに、has_many,「dependent: :destroy」を付けて実装
 
